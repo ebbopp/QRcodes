@@ -36,3 +36,48 @@ jobs:
           name: qr-code-generator-jar
           path: target/*-jar-with-dependencies.jar
           retention-days: 7
+
+      - name: Create Windows executable with jpackage
+        if: matrix.os == 'windows-latest'
+        run: |
+          mkdir -p jpackage-input
+          cp target/qr-code-generator-1.0.1-jar-with-dependencies.jar jpackage-input/
+          jpackage --input jpackage-input --name QRCodeGenerator --main-jar qr-code-generator-1.0.1-jar-with-dependencies.jar --main-class generareQr.QRCodeGenerator --type exe --app-version 1.0.1 --dest target/dist
+
+      - name: Upload Windows executable
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: qr-code-generator-windows
+          path: target/dist/*.exe
+          retention-days: 7
+
+      - name: Create macOS executable with jpackage
+        if: matrix.os == 'macos-latest'
+        run: |
+          mkdir -p jpackage-input
+          cp target/qr-code-generator-1.0.1-jar-with-dependencies.jar jpackage-input/
+          jpackage --input jpackage-input --name QRCodeGenerator --main-jar qr-code-generator-1.0.1-jar-with-dependencies.jar --main-class generareQr.QRCodeGenerator --type dmg --app-version 1.0.1 --dest target/dist
+
+      - name: Upload macOS executable
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: qr-code-generator-macos
+          path: target/dist/*.dmg
+          retention-days: 7
+
+      - name: Create Linux executable with jpackage
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          mkdir -p jpackage-input
+          cp target/qr-code-generator-1.0.1-jar-with-dependencies.jar jpackage-input/
+          jpackage --input jpackage-input --name QRCodeGenerator --main-jar qr-code-generator-1.0.1-jar-with-dependencies.jar --main-class generareQr.QRCodeGenerator --type deb --app-version 1.0.1 --dest target/dist
+
+      - name: Upload Linux executable
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: qr-code-generator-linux
+          path: target/dist/*.deb
+          retention-days: 7
