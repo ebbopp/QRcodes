@@ -75,3 +75,6 @@ Desktop.ini
 
 # Extracted files directory (original .class files)
 extracted/
+
+# jpackage temporary input directory
+jpackage-input/

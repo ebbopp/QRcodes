@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and Release
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Extract version from tag
+        id: version
+        shell: bash
+        run: |
+          if [ "${{ github.ref_type }}" == "tag" ]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            VERSION=$(mvn help:evaluate -Dexpression=project.version \
+              -q -DforceStdout)
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Build with Maven
+        run: mvn clean package
+
+      - name: Rename JAR for release
+        shell: bash
+        run: |
+          VERSION=${{ steps.version.outputs.VERSION }}
+          cp target/qr-code-generator-*-jar-with-dependencies.jar \
+            qr-code-generator-${VERSION}.jar
+          ls -lh qr-code-generator-${VERSION}.jar
+
+      - name: Create Windows executable with jpackage
+        shell: bash
+        run: |
+          VERSION=${{ steps.version.outputs.VERSION }}
+          jpackage \
+            --input . \
+            --name QRCodeGenerator \
+            --main-jar qr-code-generator-${VERSION}.jar \
+            --main-class generareQr.QRCodeGenerator \
+            --type exe \
+            --app-version ${VERSION} \
+            --vendor "QR Code Generator" \
+            --copyright "Copyright 2024" \
+            --description "Custom QR Code Generator with vCard support" \
+            --win-console
+
+          # Find and rename the generated exe
+          find . -name "QRCodeGenerator-*.exe" \
+            -exec mv {} QRCodeGenerator-${VERSION}.exe \;
+          ls -lh QRCodeGenerator-${VERSION}.exe
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            qr-code-generator-${{ steps.version.outputs.VERSION }}.jar
+            QRCodeGenerator-${{ steps.version.outputs.VERSION }}.exe
+          generate_release_notes: true
+          draft: false
+          prerelease: false
