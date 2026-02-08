@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1770513733393
+Build-Jdk: 21.0.8
+Built-By: erich
+Bundle-Description: Java Advanced Imaging Image I/O Tools API core, but 
+ without the classes     involved with javax.media.jai dependencies, JPE
+ G2000 or     codecLibJIIO, meaning that this library can be distributed
+  under the     modified BSD license and should be GPL compatible.
+Bundle-DocURL: https://github.com/jai-imageio/
+Bundle-License: LICENSE.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: Java Advanced Imaging Image I/O Tools API core (standalone)
+Bundle-SymbolicName: jai-imageio-core
+Bundle-Vendor: jai-imageio GitHub group
+Bundle-Version: 1.4.0
+Created-By: Apache Maven Bundle Plugin
+Extension-Name: com.github.jai-imageio-jai-imageio-core
+Implementation-Title: Java Advanced Imaging Image I/O Tools API core (st
+ andalone)
+Implementation-Vendor: https://github.com/jai-imageio/ jai-imageio GitHu
+ b group
+Implementation-Version: 1.4.0
+Specification-Title: Java Advanced Imaging
+Specification-Vendor: Sun Microsystems, Inc.
+Specification-Version: 1.1-mr
+Tool: Bnd-3.3.0.201609221906
+url: https://github.com/jai-imageio/jai-imageio-core
