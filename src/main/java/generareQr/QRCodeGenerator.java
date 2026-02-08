@@ -183,7 +183,7 @@ public class QRCodeGenerator {
             postalCode = "22901-1148";
             country = "United States";
         }
-        else if (office.toUpperCase().equals("Mount Pleasant") || office.toUpperCase().equals("Mt P")) {
+        else if (office.toUpperCase().equals("MOUNT PLEASANT") || office.toUpperCase().equals("MT P")) {
             street = "845 Lowcountry Boulevard";
             city = "Mount Pleasant";
             state = "South Carolina";
