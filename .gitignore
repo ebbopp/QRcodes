@@ -75,3 +75,10 @@ Desktop.ini
 
 # Extracted files directory (original .class files)
 extracted/
+
+# jpackage output
+jpackage-input/
+QRCodeGenerator/
+
+# Release artifacts
+release_notes.md

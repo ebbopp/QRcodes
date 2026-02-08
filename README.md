@@ -1,5 +1,7 @@
 # Custom QR Code Generator
 
+![Build Status](https://github.com/ebbopp/QRcodes/actions/workflows/build.yml/badge.svg)
+
 A Java Swing-based application for generating customized QR codes with vCard information. This application allows users to create professional QR codes containing contact information with company branding.
 
 ## Features
@@ -14,7 +16,7 @@ A Java Swing-based application for generating customized QR codes with vCard inf
 ## Prerequisites
 
 - **Java**: JDK 8 or higher
-- **Maven**: Apache Maven 3.6 or higher
+- **Maven**: Apache Maven 3.6 or higher (only for building from source)
 
 ### Verify Prerequisites
 
@@ -22,6 +24,29 @@ A Java Swing-based application for generating customized QR codes with vCard inf
 java -version
 mvn -version
 ```
+
+## Installation
+
+### Option 1: Download Pre-built Release (Recommended)
+
+Visit the [Releases page](https://github.com/ebbopp/QRcodes/releases) and download the latest version:
+
+#### For All Platforms (Windows/Mac/Linux)
+1. Download `qr-code-generator-{version}.jar`
+2. Ensure Java 8 or higher is installed
+3. Run with: `java -jar qr-code-generator-{version}.jar`
+
+#### For Windows Users
+1. Download `qr-code-generator-{version}.exe`
+2. Double-click to run (Java 8+ required but bundled)
+3. Or run from command line: `qr-code-generator-{version}.exe`
+
+#### For Linux Users
+1. Download `qr-code-generator-{version}-linux.zip`
+2. Extract the archive
+3. Run: `./QRCodeGenerator/bin/QRCodeGenerator`
+
+### Option 2: Build from Source
 
 ## Building the Project
 
@@ -68,20 +93,60 @@ java -jar target/qr-code-generator-1.0.0-jar-with-dependencies.jar
 
 4. **Save QR Code**: Click "Save QR Code" to export the generated image to your desired location
 
-## Creating an Executable (.exe) with Launch4j
+## CI/CD Pipeline
 
-To create a Windows executable (.exe) wrapper for the JAR file:
+This project uses GitHub Actions for automated building, testing, and releases.
 
-1. Download and install [Launch4j](http://launch4j.sourceforge.net/)
+### Automated Builds
 
-2. Configure Launch4j:
-   - **Output file**: `qr-code-generator.exe`
-   - **Jar**: `target/qr-code-generator-1.0.0-jar-with-dependencies.jar`
-   - **Min JRE version**: 1.8.0
+Every push to `main` and every pull request triggers automated builds on:
+- Ubuntu (Linux)
+- Windows
+- macOS
 
-3. Build the executable using the Launch4j GUI or command line
+The build workflow:
+1. Sets up Java 17
+2. Caches Maven dependencies for faster builds
+3. Runs `mvn clean verify` to compile and test
+4. Uploads JAR artifacts for inspection
 
-For detailed instructions, refer to the [Launch4j Documentation](http://launch4j.sourceforge.net/docs.html).
+### Creating a Release
+
+Releases are automatically created when you push a version tag. Here's how:
+
+1. **Update version in `pom.xml`**:
+   ```xml
+   <version>1.0.1</version>
+   ```
+
+2. **Commit the version change**:
+   ```bash
+   git add pom.xml
+   git commit -m "Release v1.0.1"
+   ```
+
+3. **Create and push the tag**:
+   ```bash
+   git tag v1.0.1
+   git push origin main --tags
+   ```
+
+4. **Automated Release Process**:
+   - GitHub Actions automatically triggers
+   - Builds the project on Linux and Windows
+   - Creates executable JAR with all dependencies
+   - Generates Windows .exe installer using jpackage
+   - Creates Linux standalone application
+   - Creates GitHub Release with all artifacts
+   - Generates release notes with installation instructions
+
+### Release Artifacts
+
+Each release automatically provides:
+- **Universal JAR** (`qr-code-generator-{version}.jar`) - Works on all platforms with Java
+- **Windows Installer** (`qr-code-generator-{version}.exe`) - Native Windows executable
+- **Linux Standalone** (`qr-code-generator-{version}-linux.zip`) - Standalone Linux application
+- **Source Code** - Automatically provided by GitHub
 
 ## Development
 
