@@ -7,7 +7,7 @@
 
     <groupId>com.qrcode</groupId>
     <artifactId>qr-code-generator</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>Custom QR Code Generator</name>
